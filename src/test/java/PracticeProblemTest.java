@@ -64,35 +64,73 @@ public class PracticeProblemTest {
         assertEquals("false", campbellClass.convertString(false));
     }
 
-    // Tests for convertInchesToCenti method
+    // Tests for convertMetersToCenti with integer input
     @Test
-    public void testConvertInchesToCentiFromInt() {
-        assertEquals(25.4, campbellClass.convertInchesToCenti(10), DELTA);
+    public void testConvertMetersToCentiFromIntPositive() {
+        int result = campbellClass.convertMetersToCenti(5);
+        assertEquals(500, result);
     }
 
     @Test
-    public void testConvertInchesToCentiFromZero() {
-        assertEquals(0.0, campbellClass.convertInchesToCenti(0), DELTA);
+    public void testConvertMetersToCentiFromIntZero() {
+        int result = campbellClass.convertMetersToCenti(0);
+        assertEquals(0, result);
     }
 
     @Test
-    public void testConvertInchesToCentiFromNegativeInt() {
-        assertEquals(-12.7, campbellClass.convertInchesToCenti(-5), DELTA);
+    public void testConvertMetersToCentiFromIntNegative() {
+        int result = campbellClass.convertMetersToCenti(-3);
+        assertEquals(-300, result);
     }
 
     @Test
-    public void testConvertInchesToCentiFromDouble() {
-        assertEquals(8.89, campbellClass.convertInchesToCenti(3.5), DELTA);
+    public void testConvertMetersToCentiFromIntLarge() {
+        int result = campbellClass.convertMetersToCenti(1000);
+        assertEquals(100000, result);
+    }
+
+    // Tests for convertMetersToCenti with double input
+    @Test
+    public void testConvertMetersToCentiFromDoublePositive() {
+        double result = campbellClass.convertMetersToCenti(2.5);
+        assertEquals(250.0, result, DELTA);
     }
 
     @Test
-    public void testConvertInchesToCentiFromSmallDecimal() {
-        assertEquals(0.635, campbellClass.convertInchesToCenti(0.25), DELTA);
+    public void testConvertMetersToCentiFromDoubleZero() {
+        double result = campbellClass.convertMetersToCenti(0.0);
+        assertEquals(0.0, result, DELTA);
     }
 
     @Test
-    public void testConvertInchesToCentiFromNegativeDouble() {
-        assertEquals(-6.985, campbellClass.convertInchesToCenti(-2.75), DELTA);
+    public void testConvertMetersToCentiFromDoubleNegative() {
+        double result = campbellClass.convertMetersToCenti(-1.75);
+        assertEquals(-175.0, result, DELTA);
+    }
+
+    @Test
+    public void testConvertMetersToCentiFromDoubleSmallDecimal() {
+        double result = campbellClass.convertMetersToCenti(0.05);
+        assertEquals(5.0, result, DELTA);
+    }
+
+    @Test
+    public void testConvertMetersToCentiFromDoubleLargeDecimal() {
+        double result = campbellClass.convertMetersToCenti(123.456);
+        assertEquals(12345.6, result, DELTA);
+    }
+
+    // Additional tests to verify method overloading returns correct data types
+    @Test
+    public void testConvertMetersToCentiReturnsIntForIntInput() {
+        Object result = campbellClass.convertMetersToCenti(5);
+        assertTrue("Result should be an Integer", result instanceof Integer);
+    }
+
+    @Test
+    public void testConvertMetersToCentiReturnsDoubleForDoubleInput() {
+        Object result = campbellClass.convertMetersToCenti(5.0);
+        assertTrue("Result should be a Double", result instanceof Double);
     }
 
     // Tests for removeNonAlpha method with single parameter
