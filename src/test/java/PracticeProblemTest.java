@@ -5,532 +5,167 @@ import org.junit.jupiter.api.*;
 
 public class PracticeProblemTest {
 
-    private Object createRectangle(double length, double width) {
-        try {
-            Class<?> rectangleClass = Class.forName("Rectangle");
-            Constructor<?> constructor = rectangleClass.getConstructor(double.class, double.class);
-            return constructor.newInstance(length, width);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("Rectangle constructor with (double, double) parameters does not exist");
-        } catch (Exception e) {
-            fail("Error creating Rectangle instance: " + e.getMessage());
-        }
-        return null; // This won't be reached due to fail() calls above
-    }
+    private final CampbellClass campbellClass = new CampbellClass();
+    private static final double DELTA = 0.001; // For comparing double values
 
-    private Object createCircle(double radius) {
-        try {
-            Class<?> rectangleClass = Class.forName("Circle");
-            Constructor<?> constructor = rectangleClass.getConstructor(double.class);
-            return constructor.newInstance(radius);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("Rectangle constructor with (double, double) parameters does not exist");
-        } catch (Exception e) {
-            fail("Error creating Rectangle instance: " + e.getMessage());
-        }
-        return null; // This won't be reached due to fail() calls above
-    }
-
-    private Object createPerson(String name, int age, int height, int weight, String eyeColour, String hairColour) {
-        try {
-            Class<?> rectangleClass = Class.forName("Person");
-            Constructor<?> constructor = rectangleClass.getConstructor(String.class, int.class, int.class, int.class, String.class, String.class);
-            return constructor.newInstance(name, age, height, weight, eyeColour, hairColour);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("Rectangle constructor with (double, double) parameters does not exist");
-        } catch (Exception e) {
-            fail("Error creating Rectangle instance: " + e.getMessage());
-        }
-        return null; // This won't be reached due to fail() calls above
+    // Tests for convertString method
+    @Test
+    public void testConvertStringFromInt() {
+        assertEquals("42", campbellClass.convertString(42));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void getLengthTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Rectangle");
-            Method method = rectangleClass.getDeclaredMethod("getLength");
-            Object rectangle = createRectangle(5, 4);
-            assertEquals(5.0, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertStringFromNegativeInt() {
+        assertEquals("-17", campbellClass.convertString(-17));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void getLengthTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Rectangle");
-            Method method = rectangleClass.getDeclaredMethod("getLength");
-            Object rectangle = createRectangle(5, 0);
-            assertEquals(5.2, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertStringFromZero() {
+        assertEquals("0", campbellClass.convertString(0));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void getWidthTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Rectangle");
-            Method method = rectangleClass.getDeclaredMethod("getWidth");
-            Object rectangle = createRectangle(5, 4);
-            assertEquals(5.0, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertStringFromDouble() {
+        assertEquals("3.14", campbellClass.convertString(3.14));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void getWidthTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Rectangle");
-            Method method = rectangleClass.getDeclaredMethod("getWidth");
-            Object rectangle = createRectangle(5, 0);
-            assertEquals(5.2, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertStringFromNegativeDouble() {
+        assertEquals("-2.718", campbellClass.convertString(-2.718));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void rectAreaTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Rectangle");
-            Method method = rectangleClass.getDeclaredMethod("area");
-            Object rectangle = createRectangle(5, 4);
-            assertEquals(5.0, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertStringFromDoubleWithTrailingZeros() {
+        assertEquals("5.0", campbellClass.convertString(5.0));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void rectAreaTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Rectangle");
-            Method method = rectangleClass.getDeclaredMethod("area");
-            Object rectangle = createRectangle(5, 0);
-            assertEquals(5.2, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertStringFromChar() {
+        assertEquals("A", campbellClass.convertString('A'));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void rectPerimeterTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Rectangle");
-            Method method = rectangleClass.getDeclaredMethod("perimeter");
-            Object rectangle = createRectangle(5, 4);
-            assertEquals(5.0, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertStringFromSpecialChar() {
+        assertEquals("@", campbellClass.convertString('@'));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void rectPerimeterTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Rectangle");
-            Method method = rectangleClass.getDeclaredMethod("perimeter");
-            Object rectangle = createRectangle(5, 0);
-            assertEquals(5.2, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertStringFromSpaceChar() {
+        assertEquals(" ", campbellClass.convertString(' '));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void circRadiusTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Circle");
-            Method method = rectangleClass.getDeclaredMethod("getRadius");
-            Object rectangle = createCircle(5);
-            assertEquals(5.0, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertStringFromBooleanTrue() {
+        assertEquals("true", campbellClass.convertString(true));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void circRadiusTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Circle");
-            Method method = rectangleClass.getDeclaredMethod("getRadius");
-            Object rectangle = createCircle(5);
-            assertEquals(8.5, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertStringFromBooleanFalse() {
+        assertEquals("false", campbellClass.convertString(false));
+    }
+
+    // Tests for convertInchesToCenti method
+    @Test
+    public void testConvertInchesToCentiFromInt() {
+        assertEquals(25.4, campbellClass.convertInchesToCenti(10), DELTA);
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void circGetRadiusTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Circle");
-            Method method = rectangleClass.getDeclaredMethod("getRadius");
-            Object rectangle = createCircle(5);
-            assertEquals(5.0, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertInchesToCentiFromZero() {
+        assertEquals(0.0, campbellClass.convertInchesToCenti(0), DELTA);
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void circGetRadiusTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Circle");
-            Method method = rectangleClass.getDeclaredMethod("getRadius");
-            Object rectangle = createCircle(5);
-            assertEquals(8.5, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertInchesToCentiFromNegativeInt() {
+        assertEquals(-12.7, campbellClass.convertInchesToCenti(-5), DELTA);
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void circAreaTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Circle");
-            Method method = rectangleClass.getDeclaredMethod("area");
-            Object rectangle = createCircle(5);
-            assertEquals(78.5, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertInchesToCentiFromDouble() {
+        assertEquals(8.89, campbellClass.convertInchesToCenti(3.5), DELTA);
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void circAreaTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Circle");
-            Method method = rectangleClass.getDeclaredMethod("area");
-            Object rectangle = createCircle(5);
-            assertEquals(226.865, (double)method.invoke(rectangle), 0.001);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertInchesToCentiFromSmallDecimal() {
+        assertEquals(0.635, campbellClass.convertInchesToCenti(0.25), DELTA);
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void circCircumferenceTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Circle");
-            Method method = rectangleClass.getDeclaredMethod("circumference");
-            Object rectangle = createCircle(5);
-            assertEquals(31.4, (double)method.invoke(rectangle), 0.01);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testConvertInchesToCentiFromNegativeDouble() {
+        assertEquals(-6.985, campbellClass.convertInchesToCenti(-2.75), DELTA);
+    }
+
+    // Tests for removeNonAlpha method with single parameter
+    @Test
+    public void testRemoveNonAlphaBasic() {
+        assertEquals("HelloWorld", campbellClass.removeNonAlpha("Hello123World!"));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void circCircumferenceTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Circle");
-            Method method = rectangleClass.getDeclaredMethod("circumference");
-            Object rectangle = createCircle(5);
-            assertEquals(53.38, (double)method.invoke(rectangle), 0.001);
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testRemoveNonAlphaOnlyLetters() {
+        assertEquals("OnlyLetters", campbellClass.removeNonAlpha("OnlyLetters"));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void personNameTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Person");
-            Method method = rectangleClass.getDeclaredMethod("getName");
-            Object rectangle = createPerson("Mr. Kalisz", 5, 180, 145, "Blue", "Brown");
-            assertEquals("Mr. Kalisz", (String)method.invoke(rectangle));
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testRemoveNonAlphaNoLetters() {
+        assertEquals("", campbellClass.removeNonAlpha("123!@#"));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void personNameTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Person");
-            Method method = rectangleClass.getDeclaredMethod("getName");
-            Object rectangle = createPerson("Chris", 14, 125, 100, "Grey", "Black");;
-            assertEquals("Chris", (String)method.invoke(rectangle));
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testRemoveNonAlphaEmptyString() {
+        assertEquals("", campbellClass.removeNonAlpha(""));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void personAgeTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Person");
-            Method method = rectangleClass.getDeclaredMethod("getAge");
-            Object rectangle = createPerson("Mr. Kalisz", 5, 180, 145, "Blue", "Brown");
-            assertEquals(5, (int)method.invoke(rectangle));
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testRemoveNonAlphaWithSpaces() {
+        assertEquals("HelloWorld", campbellClass.removeNonAlpha("Hello World 123"));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void personAgeTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Person");
-            Method method = rectangleClass.getDeclaredMethod("getAge");
-            Object rectangle = createPerson("Chris", 14, 125, 100, "Grey", "Black");;
-            assertEquals(14, (int)method.invoke(rectangle));
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testRemoveNonAlphaWithSpecialChars() {
+        assertEquals("abc", campbellClass.removeNonAlpha("a1b2c3!@#$%^&*()"));
+    }
+
+    // Tests for removeNonAlpha method with boolean parameter
+    @Test
+    public void testRemoveNonAlphaUpperCase() {
+        assertEquals("HELLOWORLD", campbellClass.removeNonAlpha("Hello123World!", true));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void personHeightTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Person");
-            Method method = rectangleClass.getDeclaredMethod("getHeight");
-            Object rectangle = createPerson("Mr. Kalisz", 5, 180, 145, "Blue", "Brown");
-            assertEquals(180, (int)method.invoke(rectangle));
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testRemoveNonAlphaLowerCase() {
+        assertEquals("helloworld", campbellClass.removeNonAlpha("Hello123World!", false));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void personHeightTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Person");
-            Method method = rectangleClass.getDeclaredMethod("getHeight");
-            Object rectangle = createPerson("Chris", 14, 125, 100, "Grey", "Black");;
-            assertEquals(125, (int)method.invoke(rectangle));
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testRemoveNonAlphaOnlyLettersUpperCase() {
+        assertEquals("ONLYLETTERS", campbellClass.removeNonAlpha("OnlyLetters", true));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void personWeightTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Person");
-            Method method = rectangleClass.getDeclaredMethod("getWeight");
-            Object rectangle = createPerson("Mr. Kalisz", 5, 180, 145, "Blue", "Brown");
-            assertEquals(145, (int)method.invoke(rectangle));
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testRemoveNonAlphaOnlyLettersLowerCase() {
+        assertEquals("onlyletters", campbellClass.removeNonAlpha("OnlyLetters", false));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void personWeightTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Person");
-            Method method = rectangleClass.getDeclaredMethod("getWeight");
-            Object rectangle = createPerson("Chris", 14, 125, 100, "Grey", "Black");;
-            assertEquals(100, (int)method.invoke(rectangle));
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testRemoveNonAlphaNoLettersWithBoolean() {
+        assertEquals("", campbellClass.removeNonAlpha("123!@#", true));
+        assertEquals("", campbellClass.removeNonAlpha("123!@#", false));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void personEyeColourTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Person");
-            Method method = rectangleClass.getDeclaredMethod("getEyeColour");
-            Object rectangle = createPerson("Mr. Kalisz", 5, 180, 145, "Blue", "Brown");
-            assertEquals("Blue", (String)method.invoke(rectangle));
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testRemoveNonAlphaEmptyStringWithBoolean() {
+        assertEquals("", campbellClass.removeNonAlpha("", true));
+        assertEquals("", campbellClass.removeNonAlpha("", false));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void personEyeColourTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Person");
-            Method method = rectangleClass.getDeclaredMethod("getEyeColour");
-            Object rectangle = createPerson("Chris", 14, 125, 100, "Grey", "Black");;
-            assertEquals("Grey", (String)method.invoke(rectangle));
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testRemoveNonAlphaWithSpacesUpperCase() {
+        assertEquals("HELLOWORLD", campbellClass.removeNonAlpha("Hello World 123", true));
     }
 
     @Test
-    @DisplayName("Test getLength method")
-    void personHairColourTest1() {
-        try {
-            Class<?> rectangleClass = Class.forName("Person");
-            Method method = rectangleClass.getDeclaredMethod("getHairColour");
-            Object rectangle = createPerson("Mr. Kalisz", 5, 180, 145, "Blue", "Brown");
-            assertEquals("Brown", (String)method.invoke(rectangle));
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
+    public void testRemoveNonAlphaWithSpacesLowerCase() {
+        assertEquals("helloworld", campbellClass.removeNonAlpha("Hello World 123", false));
     }
-
-    @Test
-    @DisplayName("Test getLength method")
-    void personHairColourTest2() {
-        try {
-            Class<?> rectangleClass = Class.forName("Person");
-            Method method = rectangleClass.getDeclaredMethod("getHairColour");
-            Object rectangle = createPerson("Chris", 14, 125, 100, "Grey", "Black");;
-            assertEquals("Black", (String)method.invoke(rectangle));
-        } catch (ClassNotFoundException e) {
-            fail("Rectangle class does not exist");
-        } catch (NoSuchMethodException e) {
-            fail("getLength method does not exist");
-        } catch (Exception e) {
-            fail("Something weird happened: " + e.getMessage());
-        }
-    }
-
-
-
-    
-
-    
-
-
 }
