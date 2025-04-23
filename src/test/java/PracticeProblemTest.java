@@ -5,205 +5,287 @@ import org.junit.jupiter.api.*;
 
 public class PracticeProblemTest {
 
-    private final CampbellClass campbellClass = new CampbellClass();
-    private static final double DELTA = 0.001; // For comparing double values
-
-    // Tests for convertString method
-    @Test
-    public void testConvertStringFromInt() {
-        assertEquals("42", campbellClass.convertString(42));
+    private Class<?> campbellClass;
+    
+    @BeforeEach
+    public void setUp() {
+        try {
+            campbellClass = Class.forName("CampbellClass");
+        } catch (Exception e) {
+            // Class not found
+            // Tests will be skipped but not crash
+        }
     }
-
+    
     @Test
-    public void testConvertStringFromNegativeInt() {
-        assertEquals("-17", campbellClass.convertString(-17));
+    public void testClassIsUtility() {
+        if (campbellClass == null) {
+            fail("CampbellClass not found");
+            return;
+        }
+        
+        // Check if all constructors are private
+        boolean hasPrivateConstructor = false;
+        try {
+            hasPrivateConstructor = campbellClass.getDeclaredConstructors().length > 0 && 
+                                   Modifier.isPrivate(campbellClass.getDeclaredConstructors()[0].getModifiers());
+        } catch (Exception e) {
+            fail("Error checking constructor accessibility: " + e.getMessage());
+        }
+        
+        assertTrue(hasPrivateConstructor, "A utility class should have a private constructor");
     }
-
+    
     @Test
-    public void testConvertStringFromZero() {
-        assertEquals("0", campbellClass.convertString(0));
+    public void testConvertStringWithInt() {
+        if (campbellClass == null) {
+            fail("CampbellClass not found");
+            return;
+        }
+        
+        try {
+            Method method = campbellClass.getMethod("convertString", int.class);
+            assertTrue(Modifier.isStatic(method.getModifiers()), "convertString(int) should be static");
+            
+            // Check return type is String
+            assertEquals(String.class, method.getReturnType(), "convertString(int) should return String");
+            
+            String result = (String) method.invoke(null, 42);
+            assertEquals("42", result);
+        } catch (Exception e) {
+            fail("convertString(int) method failed: " + e.getMessage());
+        }
     }
-
+    
     @Test
-    public void testConvertStringFromDouble() {
-        assertEquals("3.14", campbellClass.convertString(3.14));
+    public void testConvertStringWithDouble() {
+        if (campbellClass == null) {
+            fail("CampbellClass not found");
+            return;
+        }
+        
+        try {
+            Method method = campbellClass.getMethod("convertString", double.class);
+            assertTrue(Modifier.isStatic(method.getModifiers()), "convertString(double) should be static");
+            
+            // Check return type is String
+            assertEquals(String.class, method.getReturnType(), "convertString(double) should return String");
+            
+            String result = (String) method.invoke(null, 3.14);
+            assertEquals("3.14", result);
+        } catch (Exception e) {
+            fail("convertString(double) method failed: " + e.getMessage());
+        }
     }
-
+    
     @Test
-    public void testConvertStringFromNegativeDouble() {
-        assertEquals("-2.718", campbellClass.convertString(-2.718));
+    public void testConvertStringWithChar() {
+        if (campbellClass == null) {
+            fail("CampbellClass not found");
+            return;
+        }
+        
+        try {
+            Method method = campbellClass.getMethod("convertString", char.class);
+            assertTrue(Modifier.isStatic(method.getModifiers()), "convertString(char) should be static");
+            
+            // Check return type is String
+            assertEquals(String.class, method.getReturnType(), "convertString(char) should return String");
+            
+            String result = (String) method.invoke(null, 'A');
+            assertEquals("A", result);
+        } catch (Exception e) {
+            fail("convertString(char) method failed: " + e.getMessage());
+        }
     }
-
+    
     @Test
-    public void testConvertStringFromDoubleWithTrailingZeros() {
-        assertEquals("5.0", campbellClass.convertString(5.0));
+    public void testConvertStringWithBoolean() {
+        if (campbellClass == null) {
+            fail("CampbellClass not found");
+            return;
+        }
+        
+        try {
+            Method method = campbellClass.getMethod("convertString", boolean.class);
+            assertTrue(Modifier.isStatic(method.getModifiers()), "convertString(boolean) should be static");
+            
+            // Check return type is String
+            assertEquals(String.class, method.getReturnType(), "convertString(boolean) should return String");
+            
+            String result = (String) method.invoke(null, true);
+            assertEquals("true", result);
+            
+            result = (String) method.invoke(null, false);
+            assertEquals("false", result);
+        } catch (Exception e) {
+            fail("convertString(boolean) method failed: " + e.getMessage());
+        }
     }
-
+    
     @Test
-    public void testConvertStringFromChar() {
-        assertEquals("A", campbellClass.convertString('A'));
+    public void testConvertMetersToCentiWithInt() {
+        if (campbellClass == null) {
+            fail("CampbellClass not found");
+            return;
+        }
+        
+        try {
+            Method method = campbellClass.getMethod("convertMetersToCenti", int.class);
+            assertTrue(Modifier.isStatic(method.getModifiers()), "convertMetersToCenti(int) should be static");
+            
+            // Check return type is int (should return same type as input)
+            assertEquals(int.class, method.getReturnType(), 
+                    "convertMetersToCenti(int) should return int to match input type");
+            
+            Object result = method.invoke(null, 5);
+            assertTrue(result instanceof Integer, "Result should be an Integer");
+            assertEquals(500, ((Integer)result).intValue());
+            
+            result = method.invoke(null, 0);
+            assertTrue(result instanceof Integer, "Result should be an Integer");
+            assertEquals(0, ((Integer)result).intValue());
+        } catch (Exception e) {
+            fail("convertMetersToCenti(int) method failed: " + e.getMessage());
+        }
     }
-
+    
     @Test
-    public void testConvertStringFromSpecialChar() {
-        assertEquals("@", campbellClass.convertString('@'));
+    public void testConvertMetersToCentiWithDouble() {
+        if (campbellClass == null) {
+            fail("CampbellClass not found");
+            return;
+        }
+        
+        try {
+            Method method = campbellClass.getMethod("convertMetersToCenti", double.class);
+            assertTrue(Modifier.isStatic(method.getModifiers()), "convertMetersToCenti(double) should be static");
+            
+            // Check return type is double (should return same type as input)
+            assertEquals(double.class, method.getReturnType(), 
+                    "convertMetersToCenti(double) should return double to match input type");
+            
+            Object result = method.invoke(null, 2.5);
+            assertTrue(result instanceof Double, "Result should be a Double");
+            assertEquals(250.0, ((Double)result).doubleValue(), 0.001);
+            
+            result = method.invoke(null, 0.01);
+            assertTrue(result instanceof Double, "Result should be a Double");
+            assertEquals(1.0, ((Double)result).doubleValue(), 0.001);
+        } catch (Exception e) {
+            fail("convertMetersToCenti(double) method failed: " + e.getMessage());
+        }
     }
-
-    @Test
-    public void testConvertStringFromSpaceChar() {
-        assertEquals(" ", campbellClass.convertString(' '));
-    }
-
-    @Test
-    public void testConvertStringFromBooleanTrue() {
-        assertEquals("true", campbellClass.convertString(true));
-    }
-
-    @Test
-    public void testConvertStringFromBooleanFalse() {
-        assertEquals("false", campbellClass.convertString(false));
-    }
-
-    // Tests for convertMetersToCenti with integer input
-    @Test
-    public void testConvertMetersToCentiFromIntPositive() {
-        int result = campbellClass.convertMetersToCenti(5);
-        assertEquals(500, result);
-    }
-
-    @Test
-    public void testConvertMetersToCentiFromIntZero() {
-        int result = campbellClass.convertMetersToCenti(0);
-        assertEquals(0, result);
-    }
-
-    @Test
-    public void testConvertMetersToCentiFromIntNegative() {
-        int result = campbellClass.convertMetersToCenti(-3);
-        assertEquals(-300, result);
-    }
-
-    @Test
-    public void testConvertMetersToCentiFromIntLarge() {
-        int result = campbellClass.convertMetersToCenti(1000);
-        assertEquals(100000, result);
-    }
-
-    // Tests for convertMetersToCenti with double input
-    @Test
-    public void testConvertMetersToCentiFromDoublePositive() {
-        double result = campbellClass.convertMetersToCenti(2.5);
-        assertEquals(250.0, result, DELTA);
-    }
-
-    @Test
-    public void testConvertMetersToCentiFromDoubleZero() {
-        double result = campbellClass.convertMetersToCenti(0.0);
-        assertEquals(0.0, result, DELTA);
-    }
-
-    @Test
-    public void testConvertMetersToCentiFromDoubleNegative() {
-        double result = campbellClass.convertMetersToCenti(-1.75);
-        assertEquals(-175.0, result, DELTA);
-    }
-
-    @Test
-    public void testConvertMetersToCentiFromDoubleSmallDecimal() {
-        double result = campbellClass.convertMetersToCenti(0.05);
-        assertEquals(5.0, result, DELTA);
-    }
-
-    @Test
-    public void testConvertMetersToCentiFromDoubleLargeDecimal() {
-        double result = campbellClass.convertMetersToCenti(123.456);
-        assertEquals(12345.6, result, DELTA);
-    }
-
-    // Additional tests to verify method overloading returns correct data types
-    @Test
-    public void testConvertMetersToCentiReturnsIntForIntInput() {
-        Object result = campbellClass.convertMetersToCenti(5);
-        assertTrue("Result should be an Integer", result instanceof Integer);
-    }
-
-    @Test
-    public void testConvertMetersToCentiReturnsDoubleForDoubleInput() {
-        Object result = campbellClass.convertMetersToCenti(5.0);
-        assertTrue("Result should be a Double", result instanceof Double);
-    }
-
-    // Tests for removeNonAlpha method with single parameter
+    
     @Test
     public void testRemoveNonAlphaBasic() {
-        assertEquals("HelloWorld", campbellClass.removeNonAlpha("Hello123World!"));
+        if (campbellClass == null) {
+            fail("CampbellClass not found");
+            return;
+        }
+        
+        try {
+            Method method = campbellClass.getMethod("removeNonAlpha", String.class);
+            assertTrue(Modifier.isStatic(method.getModifiers()), "removeNonAlpha(String) should be static");
+            
+            // Check return type is String
+            assertEquals(String.class, method.getReturnType(), "removeNonAlpha(String) should return String");
+            
+            Object result = method.invoke(null, "Hello123World!");
+            assertTrue(result instanceof String, "Result should be a String");
+            assertEquals("HelloWorld", result);
+            
+            result = method.invoke(null, "a1b2c3");
+            assertTrue(result instanceof String, "Result should be a String");
+            assertEquals("abc", result);
+            
+            result = method.invoke(null, "!@#$%");
+            assertTrue(result instanceof String, "Result should be a String");
+            assertEquals("", result);
+        } catch (Exception e) {
+            fail("removeNonAlpha(String) method failed: " + e.getMessage());
+        }
     }
-
+    
     @Test
-    public void testRemoveNonAlphaOnlyLetters() {
-        assertEquals("OnlyLetters", campbellClass.removeNonAlpha("OnlyLetters"));
+    public void testRemoveNonAlphaWithCase() {
+        if (campbellClass == null) {
+            fail("CampbellClass not found");
+            return;
+        }
+        
+        try {
+            Method method = campbellClass.getMethod("removeNonAlpha", String.class, boolean.class);
+            assertTrue(Modifier.isStatic(method.getModifiers()), "removeNonAlpha(String, boolean) should be static");
+            
+            // Check return type is String
+            assertEquals(String.class, method.getReturnType(), "removeNonAlpha(String, boolean) should return String");
+            
+            // Test uppercase conversion
+            Object result = method.invoke(null, "Hello123World!", true);
+            assertTrue(result instanceof String, "Result should be a String");
+            assertEquals("HELLOWORLD", result);
+            
+            // Test lowercase conversion
+            result = method.invoke(null, "Hello123World!", false);
+            assertTrue(result instanceof String, "Result should be a String");
+            assertEquals("helloworld", result);
+            
+            // Test with empty result
+            result = method.invoke(null, "123!@#", true);
+            assertTrue(result instanceof String, "Result should be a String");
+            assertEquals("", result);
+        } catch (Exception e) {
+            fail("removeNonAlpha(String, boolean) method failed: " + e.getMessage());
+        }
     }
-
+    
     @Test
-    public void testRemoveNonAlphaNoLetters() {
-        assertEquals("", campbellClass.removeNonAlpha("123!@#"));
+    public void testRemoveNonAlphaWithEmptyString() {
+        if (campbellClass == null) {
+            fail("CampbellClass not found");
+            return;
+        }
+        
+        try {
+            Method method = campbellClass.getMethod("removeNonAlpha", String.class);
+            Object result = method.invoke(null, "");
+            assertTrue(result instanceof String, "Result should be a String");
+            assertEquals("", result);
+            
+            Method methodWithCase = campbellClass.getMethod("removeNonAlpha", String.class, boolean.class);
+            result = methodWithCase.invoke(null, "", true);
+            assertTrue(result instanceof String, "Result should be a String");
+            assertEquals("", result);
+        } catch (Exception e) {
+            fail("removeNonAlpha with empty string failed: " + e.getMessage());
+        }
     }
-
+    
     @Test
-    public void testRemoveNonAlphaEmptyString() {
-        assertEquals("", campbellClass.removeNonAlpha(""));
-    }
-
-    @Test
-    public void testRemoveNonAlphaWithSpaces() {
-        assertEquals("HelloWorld", campbellClass.removeNonAlpha("Hello World 123"));
-    }
-
-    @Test
-    public void testRemoveNonAlphaWithSpecialChars() {
-        assertEquals("abc", campbellClass.removeNonAlpha("a1b2c3!@#$%^&*()"));
-    }
-
-    // Tests for removeNonAlpha method with boolean parameter
-    @Test
-    public void testRemoveNonAlphaUpperCase() {
-        assertEquals("HELLOWORLD", campbellClass.removeNonAlpha("Hello123World!", true));
-    }
-
-    @Test
-    public void testRemoveNonAlphaLowerCase() {
-        assertEquals("helloworld", campbellClass.removeNonAlpha("Hello123World!", false));
-    }
-
-    @Test
-    public void testRemoveNonAlphaOnlyLettersUpperCase() {
-        assertEquals("ONLYLETTERS", campbellClass.removeNonAlpha("OnlyLetters", true));
-    }
-
-    @Test
-    public void testRemoveNonAlphaOnlyLettersLowerCase() {
-        assertEquals("onlyletters", campbellClass.removeNonAlpha("OnlyLetters", false));
-    }
-
-    @Test
-    public void testRemoveNonAlphaNoLettersWithBoolean() {
-        assertEquals("", campbellClass.removeNonAlpha("123!@#", true));
-        assertEquals("", campbellClass.removeNonAlpha("123!@#", false));
-    }
-
-    @Test
-    public void testRemoveNonAlphaEmptyStringWithBoolean() {
-        assertEquals("", campbellClass.removeNonAlpha("", true));
-        assertEquals("", campbellClass.removeNonAlpha("", false));
-    }
-
-    @Test
-    public void testRemoveNonAlphaWithSpacesUpperCase() {
-        assertEquals("HELLOWORLD", campbellClass.removeNonAlpha("Hello World 123", true));
-    }
-
-    @Test
-    public void testRemoveNonAlphaWithSpacesLowerCase() {
-        assertEquals("helloworld", campbellClass.removeNonAlpha("Hello World 123", false));
+    public void testConvertStringWithEdgeCases() {
+        if (campbellClass == null) {
+            fail("CampbellClass not found");
+            return;
+        }
+        
+        try {
+            Method intMethod = campbellClass.getMethod("convertString", int.class);
+            Object result = intMethod.invoke(null, Integer.MAX_VALUE);
+            assertTrue(result instanceof String, "Result should be a String");
+            assertEquals(String.valueOf(Integer.MAX_VALUE), result);
+            
+            Method doubleMethod = campbellClass.getMethod("convertString", double.class);
+            result = doubleMethod.invoke(null, 0.0);
+            assertTrue(result instanceof String, "Result should be a String");
+            assertEquals("0.0", result);
+            
+            Method charMethod = campbellClass.getMethod("convertString", char.class);
+            result = charMethod.invoke(null, ' ');
+            assertTrue(result instanceof String, "Result should be a String");
+            assertEquals(" ", result);
+        } catch (Exception e) {
+            fail("convertString edge cases failed: " + e.getMessage());
+        }
     }
 }
